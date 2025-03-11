@@ -17,6 +17,23 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\TestController;
 
 use App\Http\Controllers\OfficeController;
+<<<<<<< Updated upstream
+=======
+use App\Http\Controllers\RecordController;
+
+#region Teams Management
+Route::get('/offices', [OfficeController::class, 'list']);
+#endregion
+
+#region Records Management
+Route::prefix("records")->group(function () {
+    Route::get("/{record}", [RecordController::class, "show"])->name("record.name");
+    Route::get('/', [RecordController::class, 'list']);
+    Route::post('/', [RecordController::class, 'create']);
+});
+#endregion
+>>>>>>> Stashed changes
+
 
 Route::middleware(["auth:sanctum", "throttle:90,1", "isActive"])->group(function () {
     Route::middleware(["verified", "SPAOnly"])->group(function () {
