@@ -35,6 +35,7 @@ Route::prefix("records")->group(function () {
 >>>>>>> Stashed changes
 
 
+
 Route::middleware(["auth:sanctum", "throttle:90,1", "isActive"])->group(function () {
     Route::middleware(["verified", "SPAOnly"])->group(function () {
 
