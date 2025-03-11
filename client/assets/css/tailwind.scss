@@ -1,0 +1,12 @@
+@use "fonts/public-sans.scss";
+
+@use "tailwindcss/base";
+@use "tailwindcss/components";
+@use "tailwindcss/utilities";
+
+@use "vue-accessible-color-picker/styles";
+@use "v-calendar/dist/style.css";
+
+@use "tailwind.base.scss" as tailwindBase;
+@use "tailwind.components.scss" as tailwindComponents;
+@use "tailwind.utilities.scss" as tailwindUtilities;

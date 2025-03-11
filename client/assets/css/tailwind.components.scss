@@ -1,0 +1,59 @@
+@layer components {
+  .bg-dots {
+    --dots-bg: var(--color-gray-600);
+    background-image: radial-gradient(
+      circle,
+      rgb(var(--dots-bg) / 0.1) 0.1rem,
+      rgb(var(--dots-bg) / 0.1) 0.1rem,
+      transparent 0.25rem
+    );
+    background-size: 4.5rem 4.5rem;
+  }
+
+  .dark\:bg-dots-dark:is(.dark *) {
+    --dots-bg: var(--color-gray-400);
+  }
+
+  .bg-dots-animated {
+    animation: bg-animated 2s linear infinite;
+  }
+
+  @keyframes bg-animated {
+    0% {
+      background-position-x: 0%;
+      background-position-y: 0%;
+    }
+    100% {
+      background-position-x: 9rem;
+      background-position-y: 9rem;
+    }
+  }
+  .layout-border {
+    &--b {
+      @apply border-b border-dark-100 dark:border-gray-700;
+    }
+    &--r {
+      @apply border-r border-dark-100 dark:border-gray-700;
+    }
+    &--l {
+      @apply border-l border-dark-100 dark:border-gray-700;
+    }
+  }
+  .checkbox-label:has(input:checked) {
+    @apply border-primary-500 bg-primary-500/10;
+  }
+
+  input[type="number"].appearance-none {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      appearance: none;
+    }
+  }
+
+  .table-hover {
+    @apply hover:bg-gray-200;
+  }
+}
