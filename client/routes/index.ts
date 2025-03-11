@@ -28,7 +28,8 @@ export default computed(() => [
     meta: {
       requiresAuth: true,
     },
-    children: [],
+    children: [
+    ],
   },
   {
     path: "/settings",

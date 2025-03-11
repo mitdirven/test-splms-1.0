@@ -12,18 +12,24 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\LogController;
+use App\Http\Controllers\LogController; 
 
 use App\Http\Controllers\TestController;
 
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\RecordController;
+
+#region Teams Management
+Route::get('/offices', [OfficeController::class, 'list']);
+#endregion
+
+#region Records Management
+Route::get('/records', [RecordController::class, 'list']);
+Route::post('/records', [RecordController::class, 'create']);
+#endregion
 
 Route::middleware(["auth:sanctum", "throttle:90,1", "isActive"])->group(function () {
     Route::middleware(["verified", "SPAOnly"])->group(function () {
-
-        #region Teams Management
-        Route::get('/offices', [OfficeController::class, 'getAllOffices']);
-        
         #region Permissions Management
         Route::prefix("permissions")->group(function () {
             Route::get("", [PermissionsController::class, "list"])->name("permissions.list");
@@ -176,7 +182,5 @@ Route::middleware(["api", "throttle:60,1"])->prefix("v1.0")->group(function () {
  * prettier-ignore
  */
 Route::middleware(["auth:sanctum", "throttle:60,1"])->prefix("v1.0")->group(function () {
-    Route::middleware(["verified"])->group(function () {
-
-    });
+    Route::middleware(["verified"])->group(function () {});
 });

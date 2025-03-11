@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class OfficeController extends Controller
 {
-    public function getAllOffices()
+    public function list()
     {
         $offices = Office::all();
         return response([
