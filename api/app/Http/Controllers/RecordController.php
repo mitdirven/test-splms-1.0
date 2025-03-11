@@ -3,27 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+
 use Carbon\Carbon;
 
 use App\Models\Record;
 
 use App\Http\Requests\Record\CreateRecordRequest;
+use App\Http\Resources\RecordResource;
 
 class RecordController extends Controller
 {
 
-    public function list()
+    public function list(Request $request)
     {
-        $records = Record::with(['documentType', 'user'])->latest()->get();
+        $perPage = $request->input('per_page', 12);
+        $search_term = $request->input('search_term', '');
+        $records = Record::with(['documentType', 'user'])
+            ->generalSearch($search_term)
+            ->orderBy('id', 'desc')
+            ->paginate($perPage);
 
         return response()->json([
-            'data' => $records,
-        ], 200);
+            'total' => $records->total(),
+            'page' => $records->currentPage(),
+            'data' => RecordResource::collection($records),
+        ]);
     }
-    
+
     public function create(CreateRecordRequest $request)
     {
-        $hashid = hash('sha256', Str::random(8));
+        $hashid = Str::random(8);
 
         $date = Carbon::now();
         $month = $date->format('m');
