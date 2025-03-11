@@ -12,7 +12,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\LogController; 
+use App\Http\Controllers\LogController;
 
 use App\Http\Controllers\TestController;
 
@@ -24,8 +24,11 @@ Route::get('/offices', [OfficeController::class, 'list']);
 #endregion
 
 #region Records Management
-Route::get('/records', [RecordController::class, 'list']);
-Route::post('/records', [RecordController::class, 'create']);
+Route::prefix("records")->group(function () {
+    Route::get("{record}", [RecordController::class, "show"])->name("record.name");
+    Route::get('/records', [RecordController::class, 'list']);
+    Route::post('/records', [RecordController::class, 'create']);
+});
 #endregion
 
 Route::middleware(["auth:sanctum", "throttle:90,1", "isActive"])->group(function () {

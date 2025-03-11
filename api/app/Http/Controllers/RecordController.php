@@ -14,6 +14,12 @@ use App\Http\Resources\RecordResource;
 
 class RecordController extends Controller
 {
+    public function show(Record $record)
+    {
+        $record = Record::with(['documentType', 'user'])->find($record->id);
+
+        return response()->json(new RecordResource($record));
+    }
 
     public function list(Request $request)
     {

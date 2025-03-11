@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class File extends AppModel {
+class File extends AppModel
+{
     protected $fillable = [
         /**
          * The name of the file to be used
@@ -54,7 +55,8 @@ class File extends AppModel {
 
     protected $hidden = ["path", "file_name", "old_name"];
 
-    public function filable(): MorphTo {
+    public function filable(): MorphTo
+    {
         return $this->morphTo();
     }
 }
