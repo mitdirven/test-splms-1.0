@@ -19,6 +19,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\RecordController;
 use App\Http\Controllers\DocumentTypeController;
+use App\Models\Record;
 
 #region Teams Management
 Route::get('/offices', [OfficeController::class, 'list']);
@@ -26,16 +27,18 @@ Route::get('/offices', [OfficeController::class, 'list']);
 
 #region Records Management
 Route::prefix("records")->group(function () {
-    Route::get("{record}", [RecordController::class, "show"])->name("record.name");
-    Route::get('', [RecordController::class, 'list']);
-    Route::post('', [RecordController::class, 'create']);
+    Route::get("{record}", [RecordController::class, "show"])->name("records.show");
+    Route::get('', [RecordController::class, 'list'])->name("records.list");
+    Route::post('', [RecordController::class, 'create'])->name("records.create");
+    Route::patch("restore/{record}", [RecordController::class, "restore"])->name("records.restore");
+    Route::patch("{record}", [RecordController::class, "update"])->name("records.update");
+    Route::delete("{record}", [RecordController::class, "destroy"])->name("records.destroy");
 });
 
 Route::prefix("document_types")->group(function () {
     Route::get('', [DocumentTypeController::class, 'list']);
 });
 #endregion
-
 
 Route::middleware(["auth:sanctum", "throttle:90,1", "isActive"])->group(function () {
     Route::middleware(["verified", "SPAOnly"])->group(function () {

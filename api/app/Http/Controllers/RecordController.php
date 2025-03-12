@@ -4,28 +4,34 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use Carbon\Carbon;
 
 use App\Models\Record;
+use App\Models\File;
 
 use App\Http\Requests\Record\CreateRecordRequest;
+use App\Http\Requests\Record\UpdateRecordRequest;
 use App\Http\Resources\RecordResource;
 
 class RecordController extends Controller
 {
     public function show($hashid)
     {
-        $record = Record::with(['documentType', 'user'])->where('hashid', $hashid)->firstOrFail();
-    
+        $record = Record::with(['documentType', 'user', 'files'])
+            ->where('hashid', $hashid)
+            ->firstOrFail();
+
         return response()->json(new RecordResource($record));
-    }    
+    }
+
 
     public function list(Request $request)
     {
         $perPage = $request->input('per_page', 12);
         $search_term = $request->input('search_term', '');
-        $records = Record::with(['documentType', 'user'])
+        $records = Record::with(['documentType', 'user', 'files'])
             ->generalSearch($search_term)
             ->orderBy('id', 'desc')
             ->paginate($perPage);
@@ -62,8 +68,117 @@ class RecordController extends Controller
             'user_id' => $request->user_id,
         ]);
 
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $originalName = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $mimeType = $file->getMimeType();
+                $size = $file->getSize();
+
+                $newFileName = Str::uuid() . "." . $extension;
+
+                $path = $file->storeAs('files/records', $newFileName);
+
+                File::create([
+                    'filable_id' => $record->id,
+                    'filable_type' => Record::class,
+                    'name' => $newFileName,
+                    'old_name' => $originalName,
+                    'file_name' => $newFileName,
+                    'mime' => $mimeType,
+                    'ext' => $extension,
+                    'size' => $size,
+                    'path' => $path,
+                ]);
+            }
+        }
+
         return response()->json([
-            'data' => $record,
+            'data' => $record->load('files'),
         ], 201);
+    }
+
+    public function update(UpdateRecordRequest $request, $hashid)
+    {
+        $record = Record::where('hashid', $hashid)->firstOrFail();
+
+        $updateData = [];
+        if ($request->has('title')) {
+            $updateData['title'] = $request->title;
+        }
+        if ($request->has('subject')) {
+            $updateData['subject'] = $request->subject;
+        }
+        if ($request->has('document_type_id')) {
+            $updateData['document_type_id'] = $request->document_type_id;
+        }
+        if ($request->has('user_id')) {
+            $updateData['user_id'] = $request->user_id;
+        }
+
+        if (!empty($updateData)) {
+            $record->update($updateData);
+        }
+
+        if ($request->hasFile('files')) {
+            $record->files()->delete();
+
+            $fileIds = [];
+            foreach ($request->file('files') as $file) {
+                $originalName = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $mimeType = $file->getMimeType();
+                $size = $file->getSize();
+
+                $newFileName = Str::uuid() . "." . $extension;
+                $path = $file->storeAs('files/records', $newFileName);
+
+                $newFile = File::create([
+                    'filable_id' => $record->id,
+                    'filable_type' => Record::class,
+                    'name' => $newFileName,
+                    'old_name' => $originalName,
+                    'file_name' => $newFileName,
+                    'mime' => $mimeType,
+                    'ext' => $extension,
+                    'size' => $size,
+                    'path' => $path,
+                ]);
+
+                $fileIds[] = $newFile->id;
+            }
+
+            $record->files()->sync($fileIds);
+        }
+
+        return response()->json([
+            'message' => 'Record updated successfully',
+            'data' => $record->load('files'),
+        ]);
+    }
+
+
+    public function destroy($hashid)
+    {
+        $record = Record::where('hashid', $hashid)->firstOrFail();
+
+        foreach ($record->files as $file) {
+            Storage::delete('storage/' . $file->file_path);
+            $file->delete();
+        }
+
+        $record->delete();
+
+        return response()->json(['message' => 'Record and associated files deleted successfully.'], 200);
+    }
+
+    public function restore($hashid)
+    {
+        $record = Record::withTrashed()->where('hashid', $hashid)->firstOrFail();
+        $record->restore();
+
+        $record->files()->withTrashed()->restore();
+
+        return response()->json(['message' => 'Record and files restored successfully.'], 200);
     }
 }
