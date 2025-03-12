@@ -18,6 +18,7 @@ use App\Http\Controllers\TestController;
 
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\RecordController;
+use App\Http\Controllers\DocumentTypeController;
 
 #region Teams Management
 Route::get('/offices', [OfficeController::class, 'list']);
@@ -29,7 +30,12 @@ Route::prefix("records")->group(function () {
     Route::get('', [RecordController::class, 'list']);
     Route::post('', [RecordController::class, 'create']);
 });
+
+Route::prefix("document_types")->group(function () {
+    Route::get('', [DocumentTypeController::class, 'list']);
+});
 #endregion
+
 
 Route::middleware(["auth:sanctum", "throttle:90,1", "isActive"])->group(function () {
     Route::middleware(["verified", "SPAOnly"])->group(function () {
