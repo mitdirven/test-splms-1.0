@@ -14,12 +14,12 @@ use App\Http\Resources\RecordResource;
 
 class RecordController extends Controller
 {
-    public function show(Record $record)
+    public function show($hashid)
     {
-        $record = Record::with(['documentType', 'user'])->find($record->id);
-
+        $record = Record::with(['documentType', 'user'])->where('hashid', $hashid)->firstOrFail();
+    
         return response()->json(new RecordResource($record));
-    }
+    }    
 
     public function list(Request $request)
     {
