@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             PrivacyPolicySeeder::class,
             OfficeTypesSeeder::class,
             OfficeSeeder::class,
+            DocumentTypeSeeder::class,
         ]);
     }
 }

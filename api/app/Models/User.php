@@ -16,7 +16,8 @@ use App\Notifications\SendEmailVerification;
 
 use App\Traits\PaginatesTrait;
 
-class User extends Authenticatable {
+class User extends Authenticatable
+{
     use HasApiTokens, HasFactory, Notifiable, HasRoles, HashableId, PaginatesTrait;
 
     /**
@@ -38,7 +39,8 @@ class User extends Authenticatable {
      *
      * @return array<string, string>
      */
-    protected function casts(): array {
+    protected function casts(): array
+    {
         return [
             "email_verified_at" => "datetime",
             "disabled_at" => "datetime",
@@ -46,24 +48,34 @@ class User extends Authenticatable {
         ];
     }
 
-    public function isSuperman(): bool {
+    public function isSuperman(): bool
+    {
         return $this->hasRole(config("mitd.superman"));
     }
 
-    public function profile() {
+    public function profile()
+    {
         return $this->hasOne(Profile::class);
     }
 
-    public function resetFailedLoginAttempts() {
+    public function resetFailedLoginAttempts()
+    {
         $this->fails = 0;
         $this->save();
     }
 
-    public function sendPasswordResetNotification(#[\SensitiveParameter] $token) {
+    public function sendPasswordResetNotification(#[\SensitiveParameter] $token)
+    {
         $this->notify(new PasswordResetNotif($token));
     }
 
-    public function sendEmailVerificationNotification(): void {
+    public function sendEmailVerificationNotification(): void
+    {
         $this->notify(new SendEmailVerification());
+    }
+
+    public function records()
+    {
+        return $this->hasMany(Record::class);
     }
 }
