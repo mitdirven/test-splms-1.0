@@ -26,8 +26,8 @@ Route::get('/offices', [OfficeController::class, 'list']);
 #region Records Management
 Route::prefix("records")->group(function () {
     Route::get("{record}", [RecordController::class, "show"])->name("record.name");
-    Route::get('/records', [RecordController::class, 'list']);
-    Route::post('/records', [RecordController::class, 'create']);
+    Route::get('', [RecordController::class, 'list']);
+    Route::post('', [RecordController::class, 'create']);
 });
 #endregion
 
