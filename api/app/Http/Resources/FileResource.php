@@ -16,7 +16,8 @@ class FileResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'file_name' => $this->file_name,
+            'new_name' => $this->file_name,
+            'old_name' => $this->old_name,
             'file_path' => asset('files/records' . $this->file_path),
             'created_at' => $this->created_at->toDateTimeString(),
         ];
