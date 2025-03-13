@@ -64,6 +64,8 @@ class RecordController extends Controller
 
     public function create(CreateRecordRequest $request)
     {
+        $fields = $request->validated();
+
         $hashid = Str::random(8);
 
         $date = Carbon::now();
@@ -78,22 +80,22 @@ class RecordController extends Controller
         $nextNumber = $lastRecord ? ((int)substr($lastRecord->control_number, -6)) + 1 : 1;
         $controlNumber = sprintf("SPARK-%s-%s-%06d", $month, $year, $nextNumber);
 
-        $documentTypeId = $request->input('document_type.id');
+        $documentTypeId = $fields['document_type']['id'];
 
         // $userId = Auth::id(); //use when auth is enabled
 
         $record = Record::create([
             'hashid' => $hashid,
             'control_number' => $controlNumber,
-            'title' => $request->title,
-            'subject' => $request->subject,
+            'title' => $fields['title'],
+            'subject' => $fields['subject'],
             'document_type_id' => $documentTypeId,
-            'user_id' => $request->user_id,
-            // 'user_id' =>$userId, //use when auth is enabled
+            'user_id' => $fields['user_id'],
+            // 'user_id' => $userId, //use when auth is enabled
         ]);
 
-        if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $file) {
+        if (isset($fields['files'])) {
+            foreach ($fields['files'] as $file) {
                 $originalName = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
                 $mimeType = $file->getMimeType();
@@ -122,7 +124,6 @@ class RecordController extends Controller
         ], 201);
     }
 
-
     public function update(UpdateRecordRequest $request, $hashid)
     {
         $record = Record::where('hashid', $hashid)->firstOrFail();
@@ -147,7 +148,6 @@ class RecordController extends Controller
             'data' => $record->load('files'),
         ]);
     }
-
 
     public function destroy($hashid)
     {

@@ -27,6 +27,18 @@ class CreateRecordRequest extends FormRequest
             'document_type' => 'required|array',
             'document_type.id' => 'required|exists:document_types,id',
             'user_id' => 'required|exists:users,id',
+            'files' => 'required|array',
+            'files.*' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'document_type.id.exists' => 'The selected document type is invalid.',
+            'user_id.exists' => 'The selected user is invalid.',
+            'files.*.mimes' => 'The file must be a file of type: pdf, jpg, jpeg, png.',
+            'files.*.max' => 'The file may not be greater than 2048 kilobytes.',
         ];
     }
 }
