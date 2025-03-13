@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth; //use when auth is enabled
 
 use Carbon\Carbon;
 
@@ -79,6 +80,8 @@ class RecordController extends Controller
 
         $documentTypeId = $request->input('document_type.id');
 
+        // $userId = Auth::id(); //use when auth is enabled
+
         $record = Record::create([
             'hashid' => $hashid,
             'control_number' => $controlNumber,
@@ -86,6 +89,7 @@ class RecordController extends Controller
             'subject' => $request->subject,
             'document_type_id' => $documentTypeId,
             'user_id' => $request->user_id,
+            // 'user_id' =>$userId, //use when auth is enabled
         ]);
 
         if ($request->hasFile('files')) {
@@ -117,6 +121,7 @@ class RecordController extends Controller
             'data' => $record->load('files'),
         ], 201);
     }
+
 
     public function update(UpdateRecordRequest $request, $hashid)
     {

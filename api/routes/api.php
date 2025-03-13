@@ -27,8 +27,8 @@ Route::get('/offices', [OfficeController::class, 'list']);
 
 #region Records Management
 Route::prefix("records")->group(function () {
-    Route::get("{record}", [RecordController::class, "show"])->name("records.show");
     Route::get("archive", [RecordController::class, "archive"])->name("records.archive");
+    Route::get("{record}", [RecordController::class, "show"])->name("records.show");
     Route::get('', [RecordController::class, 'list'])->name("records.list");
     Route::post('', [RecordController::class, 'create'])->name("records.create");
     Route::patch("restore/{record}", [RecordController::class, "restore"])->name("records.restore");
