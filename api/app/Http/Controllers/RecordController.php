@@ -126,21 +126,60 @@ class RecordController extends Controller
 
     public function update(UpdateRecordRequest $request, $hashid)
     {
+        $fields = $request->validated();
+
         $record = Record::where('hashid', $hashid)->firstOrFail();
 
         $record->update([
-            'title' => $request->title,
-            'subject' => $request->subject,
-            'document_type_id' => $request->document_type_id,
-            'user_id' => $request->user_id,
+            'title' => $fields['title'],
+            'subject' => $fields['subject'],
+            'document_type_id' => $fields['document_type_id'],
+            'user_id' => $fields['user_id'],
         ]);
 
-        if ($request->hasFile('files')) {
+        $uploadedFileNames = [];
+        if (isset($fields['files'])) {
             $existingFiles = File::where('filable_id', $record->id)
                 ->where('filable_type', Record::class)
                 ->get();
 
-            dd($existingFiles);
+            foreach ($fields['files'] as $file) {
+                $originalName = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $mimeType = $file->getMimeType();
+                $size = $file->getSize();
+                $newFileName = Str::uuid() . "." . $extension;
+                $path = $file->storeAs('files/records', $newFileName);
+
+                $uploadedFileNames[] = $originalName;
+
+                $fileExists = $existingFiles->contains(function ($existingFile) use ($originalName, $size, $extension) {
+                    return $existingFile->old_name === $originalName &&
+                        $existingFile->size === $size &&
+                        $existingFile->ext === $extension;
+                });
+
+                if (!$fileExists) {
+                    File::create([
+                        'filable_id' => $record->id,
+                        'filable_type' => Record::class,
+                        'name' => $newFileName,
+                        'old_name' => $originalName,
+                        'file_name' => $newFileName,
+                        'mime' => $mimeType,
+                        'ext' => $extension,
+                        'size' => $size,
+                        'path' => $path,
+                    ]);
+                }
+
+                foreach ($existingFiles as $existingFile) {
+                    if (!in_array($existingFile->old_name, $uploadedFileNames)) {
+                        Storage::delete($existingFile->path); // Delete file from storage
+                        $existingFile->delete(); // Remove from database
+                    }
+                }
+            }
         }
 
         return response()->json([
@@ -148,6 +187,7 @@ class RecordController extends Controller
             'data' => $record->load('files'),
         ]);
     }
+
 
     public function destroy($hashid)
     {

@@ -26,6 +26,8 @@ class UpdateRecordRequest extends FormRequest
             'subject' => 'required|string|max:255',
             'document_type_id' => 'required|exists:document_types,id',
             'user_id' => 'required|exists:users,id',
+            'files' => 'required|array',
+            'files.*' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
         ];
     }
 }

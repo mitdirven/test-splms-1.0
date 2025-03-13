@@ -32,7 +32,7 @@ Route::prefix("records")->group(function () {
     Route::get('', [RecordController::class, 'list'])->name("records.list");
     Route::post('', [RecordController::class, 'create'])->name("records.create");
     Route::patch("restore/{record}", [RecordController::class, "restore"])->name("records.restore");
-    Route::patch("{record}", [RecordController::class, "update"])->name("records.update");
+    Route::post("{record}", [RecordController::class, "update"])->name("records.update");
     Route::delete("{record}", [RecordController::class, "destroy"])->name("records.destroy");
 });
 
