@@ -19,7 +19,7 @@ class FileResource extends JsonResource
             'new_name' => $this->file_name,
             'old_name' => $this->old_name,
             // 'file_path' => asset('files/records' . $this->file_path),
-            'file_path' => asset($this->path),
+            'file_path' => asset('storage/app/' . $this->path),
             'created_at' => $this->created_at->toDateTimeString(),
         ];
     }
