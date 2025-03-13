@@ -43,6 +43,24 @@ class RecordController extends Controller
         ]);
     }
 
+    public function archive(Request $request)
+    {
+        $perPage = $request->input('per_page', 12);
+        $search_term = $request->input('search_term', '');
+
+        $records = Record::onlyTrashed()
+            ->with(['documentType', 'user', 'files'])
+            ->generalSearch($search_term)
+            ->orderBy('id', 'desc')
+            ->paginate($perPage);
+
+        return response()->json([
+            'total' => $records->total(),
+            'page' => $records->currentPage(),
+            'data' => RecordResource::collection($records)
+        ]);
+    }
+
     public function create(CreateRecordRequest $request)
     {
         $hashid = Str::random(8);
@@ -59,12 +77,14 @@ class RecordController extends Controller
         $nextNumber = $lastRecord ? ((int)substr($lastRecord->control_number, -6)) + 1 : 1;
         $controlNumber = sprintf("SPARK-%s-%s-%06d", $month, $year, $nextNumber);
 
+        $documentTypeId = $request->input('document_type.id');
+
         $record = Record::create([
             'hashid' => $hashid,
             'control_number' => $controlNumber,
             'title' => $request->title,
             'subject' => $request->subject,
-            'document_type_id' => $request->document_type_id,
+            'document_type_id' => $documentTypeId,
             'user_id' => $request->user_id,
         ]);
 
@@ -102,53 +122,19 @@ class RecordController extends Controller
     {
         $record = Record::where('hashid', $hashid)->firstOrFail();
 
-        $updateData = [];
-        if ($request->has('title')) {
-            $updateData['title'] = $request->title;
-        }
-        if ($request->has('subject')) {
-            $updateData['subject'] = $request->subject;
-        }
-        if ($request->has('document_type_id')) {
-            $updateData['document_type_id'] = $request->document_type_id;
-        }
-        if ($request->has('user_id')) {
-            $updateData['user_id'] = $request->user_id;
-        }
-
-        if (!empty($updateData)) {
-            $record->update($updateData);
-        }
+        $record->update([
+            'title' => $request->title,
+            'subject' => $request->subject,
+            'document_type_id' => $request->document_type_id,
+            'user_id' => $request->user_id,
+        ]);
 
         if ($request->hasFile('files')) {
-            $record->files()->delete();
+            $existingFiles = File::where('filable_id', $record->id)
+                ->where('filable_type', Record::class)
+                ->get();
 
-            $fileIds = [];
-            foreach ($request->file('files') as $file) {
-                $originalName = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $mimeType = $file->getMimeType();
-                $size = $file->getSize();
-
-                $newFileName = Str::uuid() . "." . $extension;
-                $path = $file->storeAs('files/records', $newFileName);
-
-                $newFile = File::create([
-                    'filable_id' => $record->id,
-                    'filable_type' => Record::class,
-                    'name' => $newFileName,
-                    'old_name' => $originalName,
-                    'file_name' => $newFileName,
-                    'mime' => $mimeType,
-                    'ext' => $extension,
-                    'size' => $size,
-                    'path' => $path,
-                ]);
-
-                $fileIds[] = $newFile->id;
-            }
-
-            $record->files()->sync($fileIds);
+            dd($existingFiles);
         }
 
         return response()->json([

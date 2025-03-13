@@ -24,7 +24,8 @@ class CreateRecordRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'subject' => 'required|string|max:255',
-            'document_type_id' => 'required|exists:document_types,id',
+            'document_type' => 'required|array',
+            'document_type.id' => 'required|exists:document_types,id',
             'user_id' => 'required|exists:users,id',
         ];
     }
