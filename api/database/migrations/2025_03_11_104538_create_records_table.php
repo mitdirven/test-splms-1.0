@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('document_type_id')->constrained('document_types')->onDelete('restrict');
             $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

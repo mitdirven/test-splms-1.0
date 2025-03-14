@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DocumentTypeResource extends JsonResource
+class FileResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,11 @@ class DocumentTypeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'hashid' => $this->hashid,
-            'code' => $this->code,
-            'name' => $this->name,
+            'new_name' => $this->file_name,
+            'old_name' => $this->old_name,
+            // 'file_path' => asset('files/records' . $this->file_path),
+            'file_path' => asset('storage/app/' . $this->path),
             'created_at' => $this->created_at->toDateTimeString(),
-            'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }
 }

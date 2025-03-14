@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\DocumentTypeResource;
 
 class RecordResource extends JsonResource
 {
@@ -22,6 +23,7 @@ class RecordResource extends JsonResource
             'subject' => $this->subject,
             'document_type' => new DocumentTypeResource($this->whenLoaded('documentType')),
             'user' => new UserResource($this->whenLoaded('user')),
+            'files' => FileResource::collection($this->whenLoaded('files')), // Include files
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

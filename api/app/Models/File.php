@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class File extends AppModel
 {
+
+    use SoftDeletes;
+
     protected $fillable = [
         /**
          * The name of the file to be used

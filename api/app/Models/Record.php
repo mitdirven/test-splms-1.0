@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Record extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'hashid',
@@ -36,8 +37,9 @@ class Record extends Model
 
     public function files()
     {
-        return $this->morphMany(File::class, 'fileable');
+        return $this->morphMany(File::class, 'filable');
     }
+
 
     public function scopeGeneralSearch(Builder $query, ?string $search_term)
     {

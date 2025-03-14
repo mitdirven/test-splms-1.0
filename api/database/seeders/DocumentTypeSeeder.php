@@ -17,187 +17,187 @@ class DocumentTypeSeeder extends Seeder
         $document_types = [
             [
                 'code' => 'ACR',
-                'name' => 'ACCREDITATION',
+                'name' => 'Accreditation',
             ],
             [
                 'code' => 'AIP',
-                'name' => 'ANNUAL INVESTMENT PLAN'
+                'name' => 'Annual Investment Plan',
             ],
             [
                 'code' => 'AOEOMC',
-                'name' => 'ADMINISTRATIVE/EXECUTIVE ORDER/MEMORANDUM'
+                'name' => 'Administrative/Executive Order/Memorandum',
             ],
             [
                 'code' => 'APO',
-                'name' => 'APPROVED CITY ORDINANCE'
+                'name' => 'Approved City Ordinance',
             ],
             [
                 'code' => 'APR',
-                'name' => 'APPROVED CITY RESOLUTION'
+                'name' => 'Approved City Resolution',
             ],
             [
                 'code' => 'AROM',
-                'name' => 'AUDIT REPORT/OBSERVATION MEMORANDUM'
+                'name' => 'Audit Report/Observation Memorandum',
             ],
             [
                 'code' => 'BAB',
-                'name' => 'BRGY ANNUAL/SUPPLEMENTAL BUDGETS'
+                'name' => 'Barangay Annual/Supplemental Budgets',
             ],
             [
                 'code' => 'BAC',
-                'name' => 'BRGY ADMIN CASES/COMPLAINT/AFFIDAVIT COMPLAINT'
+                'name' => 'Barangay Admin Cases/Complaint/Affidavit Complaint',
             ],
             [
                 'code' => 'BAO',
-                'name' => 'BRGY ORDINANCE'
+                'name' => 'Barangay Ordinance',
             ],
             [
                 'code' => 'BAR',
-                'name' => 'BRGY RESOLUTION/LIGA NG MGA BRGY'
+                'name' => 'Barangay Resolution/Liga ng mga Barangay',
             ],
             [
                 'code' => 'BO-SC',
-                'name' => 'BARANGAY ORDINANCE OF SENIOR CITIZEN OFFICIALS'
+                'name' => 'Barangay Ordinance of Senior Citizen Officials',
             ],
             [
                 'code' => 'BR',
-                'name' => 'BOARD RESOLUTION'
+                'name' => 'Board Resolution',
             ],
             [
                 'code' => 'BR-SC',
-                'name' => 'BARANGAY RESOLUTION OF SENIOR CITIZEN OFFICIALS'
+                'name' => 'Barangay Resolution of Senior Citizen Officials',
             ],
             [
                 'code' => 'CAB',
-                'name' => 'CITY ANNUAL/SUPPLEMENTAL BUDGETS/BUDGET FOR'
+                'name' => 'City Annual/Supplemental Budgets/Budget For',
             ],
             [
                 'code' => 'CDRRMP',
-                'name' => 'CITY DISASTER RISK REDUCTION AND MANAGEMENT'
+                'name' => 'City Disaster Risk Reduction and Management',
             ],
             [
                 'code' => 'CFO',
-                'name' => 'CITIZEN\'S FORUM'
+                'name' => 'Citizen\'s Forum',
             ],
             [
                 'code' => 'CON',
-                'name' => 'CONTRACT (MOA/MOU/DEED OF DONATIONS/TOR)'
+                'name' => 'Contract (MOA/MOU/Deed of Donations/TOR)',
             ],
             [
                 'code' => 'COP',
-                'name' => 'COURT PLEADINGS'
+                'name' => 'Court Pleadings',
             ],
             [
                 'code' => 'COR',
-                'name' => 'COMMITTEE REPORTS'
+                'name' => 'Committee Reports',
             ],
             [
                 'code' => 'CORD',
-                'name' => 'CITY ORDINANCE'
+                'name' => 'City Ordinance',
             ],
             [
                 'code' => 'CRES',
-                'name' => 'CITY RESOLUTION'
+                'name' => 'City Resolution',
             ],
             [
                 'code' => 'DBR',
-                'name' => 'DEPARTMENTAL BUDGET REVIEW'
+                'name' => 'Departmental Budget Review',
             ],
             [
                 'code' => 'DEC',
-                'name' => 'DECISION/ORDER'
+                'name' => 'Decision/Order',
             ],
             [
                 'code' => 'EML',
-                'name' => 'E-MAILED LETTER'
+                'name' => 'E-Mailed Letter',
             ],
             [
                 'code' => 'FAX',
-                'name' => 'FAXED LETTER'
+                'name' => 'Faxed Letter',
             ],
             [
                 'code' => 'IP',
-                'name' => 'IPS/INDIGENOUS CULTURAL COMMUNITIES'
+                'name' => 'IPS/Indigenous Cultural Communities',
             ],
             [
                 'code' => 'LET',
-                'name' => 'LETS/INVITS/SEMS/ACKNOWS/INDOS'
+                'name' => 'Letters/Invitations/Seminars/Acknowledgments/Indorsements',
             ],
             [
                 'code' => 'LGOR',
-                'name' => 'LGU RESOLUTION/ORDINANCE'
+                'name' => 'LGU Resolution/Ordinance',
             ],
             [
                 'code' => 'LVS',
-                'name' => 'LEAVES APPLICATION'
+                'name' => 'Leave Applications',
             ],
             [
                 'code' => 'MEMO',
-                'name' => 'MEMORANDUM'
+                'name' => 'Memorandum',
             ],
             [
                 'code' => 'NAR',
-                'name' => 'NGO-ANNUAL REPORT'
+                'name' => 'NGO Annual Report',
             ],
             [
                 'code' => 'ORAMO',
-                'name' => 'ORAL/RELATED MOTION'
+                'name' => 'Oral/Related Motion',
             ],
             [
                 'code' => 'PER',
-                'name' => 'PERFORMANCE EVALUATION REPORT'
+                'name' => 'Performance Evaluation Report',
             ],
             [
                 'code' => 'PO',
-                'name' => 'PROPOSED/AMENDATORY ORDINANCE'
+                'name' => 'Proposed/Amendatory Ordinance',
             ],
             [
                 'code' => 'PO-SCO',
-                'name' => 'PROPOSED ORDINANCE-SENIOR CITIZEN OFFICIAL'
+                'name' => 'Proposed Ordinance - Senior Citizen Official',
             ],
             [
                 'code' => 'PO-SO',
-                'name' => 'PROPOSED ORDINANCE-SCOUT OFFICIALS FOR A'
+                'name' => 'Proposed Ordinance - Scout Officials for a',
             ],
             [
                 'code' => 'PR',
-                'name' => 'PROPOSED RESOLUTION'
+                'name' => 'Proposed Resolution',
             ],
             [
                 'code' => 'PR-SCO',
-                'name' => 'PROPOSED RESOLUTION-SENIOR CITIZEN OFFICIAL'
+                'name' => 'Proposed Resolution - Senior Citizen Official',
             ],
             [
                 'code' => 'PR-SO',
-                'name' => 'PROPOSED RESOLUTION-SCOUT OFFICIALS FOR A'
+                'name' => 'Proposed Resolution - Scout Officials for a',
             ],
             [
                 'code' => 'PS',
-                'name' => 'PRIVILEGE SPEECH'
+                'name' => 'Privilege Speech',
             ],
             [
                 'code' => 'PTO',
-                'name' => 'PROPOSED TAX ORDINANCE'
+                'name' => 'Proposed Tax Ordinance',
             ],
             [
                 'code' => 'ROS',
-                'name' => 'RESOLUTION OF ASSOCIATION'
+                'name' => 'Resolution of Association',
             ],
             [
                 'code' => 'SCOFAD',
-                'name' => 'ADMINISTRATIVE/EXECUTIVE ORDER/MEMORANDUM'
+                'name' => 'Administrative/Executive Order/Memorandum',
             ],
             [
                 'code' => 'URO',
-                'name' => 'UNSIGNED RESOLUTION/ORDINANCE'
+                'name' => 'Unsigned Resolution/Ordinance',
             ],
             [
                 'code' => 'VETO',
-                'name' => 'VETOED RES/ORD'
+                'name' => 'Vetoed Resolution/Ordinance',
             ],
             [
                 'code' => 'WPA',
-                'name' => 'WATER PERMIT APPLICATION'
+                'name' => 'Water Permit Application',
             ],
         ];
 
