@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Position;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -23,6 +24,8 @@ class DatabaseSeeder extends Seeder
             OfficeTypesSeeder::class,
             OfficeSeeder::class,
             DocumentTypeSeeder::class,
+
+            PositionSeeder::class,
         ]);
     }
 }
