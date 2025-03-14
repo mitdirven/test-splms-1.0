@@ -8,10 +8,27 @@ export * from "./settings";
  */
 
 export default computed(() => [
+
   {
-    path: "/spark",
-    name: "spark",
-    component: () => import("~/pages/spark/index.vue"),
+    path: "/records",
+    children: [
+      {
+        path: "",
+        name: "index-records",
+        component: () => import("@/pages/records/index.vue"),
+        meta: {
+          title: "Index: Records",
+        },
+      },
+      {
+        path: "create",
+        name: "create-record",
+        component: () => import("@/pages/records/create.vue"),
+        meta: {
+          title: "Create: Records",
+        },
+      },
+    ],
   },
   {
     path: "/t",

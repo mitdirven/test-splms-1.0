@@ -35,20 +35,9 @@ export default computed<Array<MenuOption>>(() => {
   if (layoutName === "home") return home.value;
   return [
     {
-      label: "SPARK",
-      icon: "tabler:sparkles",
-      to:{ name: "spark" },
-      children: [
-        {
-          label: "Inbox",
-        },
-        {
-          label: "Outbox",
-        },
-        {
-          label: "Filed",
-        }
-      ]
-    }
+      label: "Records",
+      icon: "tabler:home",
+      to: {name: 'index-records'}
+    },
   ];
 });
